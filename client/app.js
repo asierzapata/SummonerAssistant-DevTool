@@ -1,36 +1,29 @@
 // Dependencies
 import React from 'react'
-
-// Components
-import { Button } from '@blueprintjs/core'
+import _ from 'lodash'
 
 // Styles
 import './styles/app.css'
+
+// Components
+import { Button } from '@blueprintjs/core'
+import { SocketLauncher } from './components/socketLauncher';
 
 class App extends React.Component {
 
     constructor() {
         super()
         this.state = {
-            socket : {
-                isOpen: false,
-                instance : undefined
-            }
+            socket : undefined
         }
     }
 
     render() {
-        const socketCircleClass = 'circle ' + (this.state.socket.isOpen ? 'circle-up' : 'circle-down')
-        const socketButtonText = this.state.socket.isOpen ? 'Boot' : 'Stop'
         return (
             <div>
                 <h1>Summoner Assistant DevTools</h1>
                 <div className='main'>
-                    <div className='flex-row'>
-                        <div className='button-label'>Socket.io server</div>
-                        <Button>{socketButtonText}</Button>
-                        <div className={socketCircleClass}></div>
-                    </div>
+                    <SocketLauncher isOpen={!_.isUndefined(this.state.socket)}/>
                     { this.state.socket.isOpen ? 
                         renderMain()
                         :

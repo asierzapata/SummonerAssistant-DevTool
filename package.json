@@ -24,7 +24,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "electron": "^1.8.2",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.10",
     "react": "^16.4.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
