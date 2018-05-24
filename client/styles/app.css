@@ -1,0 +1,39 @@
+body {
+    color: white !important;
+}
+
+.circle {
+    border-radius: 50%;
+    width: 13px;
+    height: 13px; 
+    margin: 5px;
+    display: inline-block;
+    -webkit-app-region: no-drag;
+}
+
+.circle-up {
+    background-color: green;
+}
+
+.circle-down {
+    background-color: red;
+}
+
+.main {
+    margin: auto;
+    width: 50%;
+    padding-top: 15px;
+}
+
+.button-label {
+    width: 100%;
+    text-align: left;
+    flex: 1;
+}
+
+.flex-row {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+}
