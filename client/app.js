@@ -7,34 +7,45 @@ import './styles/app.css'
 
 // Components
 import { Button } from '@blueprintjs/core'
-import { SocketLauncher } from './components/socketLauncher';
+import { SocketController } from './components/socketController';
 
 class App extends React.Component {
 
     constructor() {
         super()
-        this.state = {
-            socket : undefined
-        }
     }
+
 
     render() {
         return (
             <div>
                 <h1>Summoner Assistant DevTools</h1>
-                <div className='main'>
-                    <SocketLauncher isOpen={!_.isUndefined(this.state.socket)}/>
-                    { this.state.socket.isOpen ? 
-                        renderMain()
-                        :
-                        null
-                    }
-                </div>
+                <SocketController>
+                    {(socketServerAction, setIsOnChampionSelect, sendData, isOpen) => {
+                        console.log(`>>>>> isOpen ${isOpen}`)
+                        const socketCircleClass = 'circle ' + (isOpen ? 'circle-up' : 'circle-down')
+                        const socketButtonText = isOpen ? 'Stop' : 'Boot'
+                        return (
+                            <div className='main'>
+                                <div className='flex-row'>
+                                    <div className='button-label'>Socket.io server</div>
+                                    <Button onClick={() => socketServerAction(this.props.setSocket)}>{socketButtonText}</Button>
+                                    <div className={socketCircleClass}></div>
+                                </div>
+                                { isOpen ? 
+                                    this.renderMain(sendData)
+                                    :
+                                    null
+                                }
+                            </div>
+                        )
+                    }}
+                </SocketController>
             </div>
         )
     }
 
-    renderMain() {
+    renderMain(sendData) {
         return (
             <div>
 
