@@ -1,20 +1,18 @@
-import express from 'express'
-import _ from 'lodash'
-import http from 'http'
-import socket from 'socket.io'
-import events from './events'
+const _          = require('lodash')
+const app        = require('express')();
+const http       = require('http').Server(app)
+const socketIo   = require('socket.io')
+const events     = require('./events')
 
-const app = express();
-const server = http.Server(app);
-const socketServer
+let socketServer = undefined
 
-server.listen(8000, function(){
+http.listen(8000, function(){
   console.log('listening on *:8000');
 });
 
-export const initSocketServer = () => socketServer = socket(server)
+export const initSocketServer = () => socketServer = socketIo(http, { serveClient: false })
 
-export const stopSocketServer = () => socketServer.server.close()
+export const stopSocketServer = () => socketServer.close()
 
 export const sendData = (type, data) => socketServer.emit(events[type], data)
 

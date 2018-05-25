@@ -7,7 +7,7 @@ import './styles/app.css'
 
 // Components
 import { Button } from '@blueprintjs/core'
-import { SocketController } from './components/socketLauncher';
+import { SocketController } from './components/socketController';
 
 class App extends React.Component {
 
@@ -22,19 +22,18 @@ class App extends React.Component {
                 <h1>Summoner Assistant DevTools</h1>
                 <SocketController>
                     {(socketServerAction, setIsOnChampionSelect, sendData, isOpen) => {
+                        console.log(`>>>>> isOpen ${isOpen}`)
                         const socketCircleClass = 'circle ' + (isOpen ? 'circle-up' : 'circle-down')
-                        const socketButtonText = isOpen ? 'Boot' : 'Stop'
+                        const socketButtonText = isOpen ? 'Stop' : 'Boot'
                         return (
                             <div className='main'>
                                 <div className='flex-row'>
-                                    <div>
-                                        <div className='button-label'>Socket.io server</div>
-                                        <Button onClick={() => socketServerAction(this.props.setSocket)}>{socketButtonText}</Button>
-                                        <div className={socketCircleClass}></div>
-                                    </div>
+                                    <div className='button-label'>Socket.io server</div>
+                                    <Button onClick={() => socketServerAction(this.props.setSocket)}>{socketButtonText}</Button>
+                                    <div className={socketCircleClass}></div>
                                 </div>
-                                { this.state.socket.isOpen ? 
-                                    renderMain(sendData)
+                                { isOpen ? 
+                                    this.renderMain(sendData)
                                     :
                                     null
                                 }

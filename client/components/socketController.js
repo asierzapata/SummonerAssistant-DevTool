@@ -21,28 +21,31 @@ export class SocketController extends Component {
         }
     }
 
-    socketServerAction(next) {
+    socketServerAction = (next) => {
         if(this.state.isOpen) {
             stopSocketServer()
+            this.setState({ isOpen : false })
             return 
         }
         initSocketServer()
         bindOnConnection((socket) => {
+            console.log('>>>>> Client connected')
             bindSocketEvents(socket, this.eventsBinding)
         })
+        this.setState({ isOpen : true })
     }
 
-    setIsOnChampionSelect(isOnChampionSelect) {
+    setIsOnChampionSelect = (isOnChampionSelect) => {
         this.setState({ isOnChampionSelect })
     }
 
-    sendData(type, data) {
+    sendData = (type, data) => {
         // Wrapper for future additions
         sendData(type, data)
     }
 
     render() {
-        this.props.children(socketServerAction, this.setIsOnChampionSelect, this.sendData, this.state.isOpen)
+        return this.props.children(this.socketServerAction, this.setIsOnChampionSelect, this.sendData, this.state.isOpen)
     }
 }
 
