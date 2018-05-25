@@ -18,12 +18,16 @@ class App extends React.Component {
         }
     }
 
+    setSocket(socket) {
+        this.setState({ socket })
+    }
+
     render() {
         return (
             <div>
                 <h1>Summoner Assistant DevTools</h1>
                 <div className='main'>
-                    <SocketLauncher isOpen={!_.isUndefined(this.state.socket)}/>
+                    <SocketLauncher isOpen={!_.isUndefined(this.state.socket)} setSocket={this.setSocket}/>
                     { this.state.socket.isOpen ? 
                         renderMain()
                         :

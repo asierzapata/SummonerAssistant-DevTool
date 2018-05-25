@@ -10,7 +10,11 @@ export class SocketLauncher extends Component {
     }
 
     handleSocketAction() {
-        
+        if(this.state.isOpen){
+            this.props.setSocket(undefined)
+        } else {
+            // Code to create the socket
+        }
     }
 
     render() {
