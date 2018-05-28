@@ -26,9 +26,9 @@ export class ChampionSelector extends Component {
     }
 
     onChange = (event) => {
-        let champion = event.target.value
-        let name = event.target.name
+        let { champion, name } = event.target
         let state = this.state
+        
         state[name] = champion
         this.setState(state)
     }
