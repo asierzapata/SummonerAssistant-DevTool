@@ -6,8 +6,9 @@ import _ from 'lodash'
 import './styles/app.css'
 
 // Components
-import { Button } from '@blueprintjs/core'
 import { SocketController } from './components/socketController';
+import { TogglePair } from './components/togglePair';
+import { ChampionSelector } from './components/championSelector';
 
 class App extends React.Component {
 
@@ -21,19 +22,19 @@ class App extends React.Component {
             <div>
                 <h1>Summoner Assistant DevTools</h1>
                 <SocketController>
-                    {(socketServerAction, setIsOnChampionSelect, sendData, isOpen) => {
-                        console.log(`>>>>> isOpen ${isOpen}`)
-                        const socketCircleClass = 'circle ' + (isOpen ? 'circle-up' : 'circle-down')
-                        const socketButtonText = isOpen ? 'Stop' : 'Boot'
+                    {(socketServerAction, isOpen, isChampionSelect, helpers) => {
                         return (
                             <div className='main'>
-                                <div className='flex-row'>
-                                    <div className='button-label'>Socket.io server</div>
-                                    <Button onClick={() => socketServerAction(this.props.setSocket)}>{socketButtonText}</Button>
-                                    <div className={socketCircleClass}></div>
-                                </div>
+                                <TogglePair 
+                                    isOpen={isOpen} 
+                                    title="Socket.io server"
+                                    openText="Stop"
+                                    closedText="Boot"
+                                    onClick={() => socketServerAction(this.props.setSocket)}
+                                />  
+                                <br/>
                                 { isOpen ? 
-                                    this.renderMain(sendData)
+                                    this.renderMain(isChampionSelect, helpers)
                                     :
                                     null
                                 }
@@ -45,10 +46,22 @@ class App extends React.Component {
         )
     }
 
-    renderMain(sendData) {
+    renderMain(isChampionSelect, { sendData, setIsOnChampionSelect }) {
         return (
             <div>
-
+                <TogglePair 
+                    isOpen={isChampionSelect} 
+                    title="Is in champion select?"
+                    openText="In"
+                    closedText="Not In"
+                    onClick={setIsOnChampionSelect}
+                />
+                <div className='flex-row'>
+                    <h3>Matchup</h3>
+                </div>
+                <ChampionSelector 
+                    sendData={sendData}
+                />
             </div>
         )
     }

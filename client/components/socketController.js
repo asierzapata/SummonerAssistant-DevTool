@@ -35,8 +35,8 @@ export class SocketController extends Component {
         this.setState({ isOpen : true })
     }
 
-    setIsOnChampionSelect = (isOnChampionSelect) => {
-        this.setState({ isOnChampionSelect })
+    setIsOnChampionSelect = () => {
+        this.setState({ isOnChampionSelect: !this.state.isOnChampionSelect })
     }
 
     sendData = (type, data) => {
@@ -45,7 +45,13 @@ export class SocketController extends Component {
     }
 
     render() {
-        return this.props.children(this.socketServerAction, this.setIsOnChampionSelect, this.sendData, this.state.isOpen)
+        return this.props.children(this.socketServerAction, 
+            this.state.isOpen, 
+            this.state.isOnChampionSelect,
+            { 
+                'setIsOnChampionSelect' : this.setIsOnChampionSelect, 
+                'sendData': this.sendData
+            })
     }
 }
 
