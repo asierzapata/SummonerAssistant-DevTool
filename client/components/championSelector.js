@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 
 import { Button } from '@blueprintjs/core'
-import champions from './champions.json'
+import champions from '../lib/staticData/champions'
 import { sendData } from '../lib/socket/socket';
+import { stat } from 'fs';
 
 const DATA_TYPE = 'champion-matchup'
 
@@ -14,6 +15,7 @@ export class ChampionSelector extends Component {
     }
 
     onClick = () => {
+        console.log(this.state)
         sendData(
             DATA_TYPE, 
             {
@@ -23,22 +25,35 @@ export class ChampionSelector extends Component {
         )
     }
 
+    onChange = (event) => {
+        let champion = event.target.value
+        let name = event.target.name
+        let state = this.state
+        state[name] = champion
+        this.setState(state)
+    }
+
     render() {
         return (
-            <div className='flex-row'>
-                <span>My Champ</span>
-                <select name="First Champ" onChange={console.log}>
-                    {_.forIn(champions.data, (champion, name) => {
-                        console.log(champion.key, name, typeof champion.key)
-                        return <option value={champion.key} key={champion.key}>{name}</option>
-                    })}
-                </select>
-                <span>Enemy Champ</span>
-                <select name="Second Champ" onChange={console.log}>
-                    {_.forIn(champions.data, (champion, name) => {
-                        return <option value={champion.key} key={champion.key}>{name}</option>
-                    })}
-                </select>
+            <div className='flex-col'>
+                <div className='flex-row space-between'>
+                    <span>My Champ</span>
+                    <select name="firstChamp" onChange={this.onChange}>
+                        <option>-</option>
+                        {_.map(champions, (champion, index) => {
+                            return <option value={index} key={index}>{champion.name}</option>
+                        })}
+                    </select>
+                </div>
+                <div className='flex-row space-between'>
+                    <span>Enemy Champ</span>
+                    <select name="secondChamp" onChange={this.onChange}>
+                        <option>-</option>
+                        {_.map(champions, (champion, index) => {
+                            return <option value={index} key={index}>{champion.name}</option>
+                        })}
+                    </select>
+                </div>
                 <Button onClick={this.onClick}>Send</Button>
             </div>
         )

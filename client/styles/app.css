@@ -36,4 +36,15 @@ body {
     flex-flow: row wrap;
     align-items: center;
     justify-content: center;
+    margin: 7px;
+}
+
+.flex-col {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
+.space-between {
+    justify-content: space-between !important;
 }
